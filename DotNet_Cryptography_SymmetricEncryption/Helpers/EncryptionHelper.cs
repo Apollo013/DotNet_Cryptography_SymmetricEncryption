@@ -55,7 +55,7 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             cipher.BlockSize = BlockSize;
             cipher.Padding = PaddingMode;
             cipher.Mode = CipherMode;
-            byte[] key = HexToByteArray("B374A26A71490437AA024E4FADD5B497FDFF1A8EA6FF12F6FB65AF2720B59CCF");
+            byte[] key = HexToByteArray(GetEncryptionKey());
             cipher.Key = key;
             return cipher;
         }
@@ -79,6 +79,23 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
                 byteValues[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
             }
             return byteValues;
+        }
+
+        private string GetEncryptionKey()
+        {
+            byte[] key = new byte[KeySize / 8];
+            GenerateRandomBytes(key);
+            return BitConverter.ToString(key).Replace("-", string.Empty);
+        }
+
+        /// <summary>
+        /// Generates 
+        /// </summary>
+        /// <param name="buffer"></param>
+        private void GenerateRandomBytes(byte[] buffer)
+        {
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(buffer);
         }
     }
 

@@ -21,6 +21,10 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             DestinationFileName = destinationFileName;
         }
 
+        /// <summary>
+        /// Reads string content from a file
+        /// </summary>
+        /// <returns></returns>
         public string Read()
         {
             // Check file name specified
@@ -53,6 +57,10 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Writes string content out to a file
+        /// </summary>
+        /// <param name="content"></param>
         public void Write(string content)
         {
             // Check file name specified
@@ -72,7 +80,6 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             {
                 writer.WriteLine(content);
             }
-
         }
     }
 }
