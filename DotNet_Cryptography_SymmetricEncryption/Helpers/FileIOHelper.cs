@@ -4,6 +4,12 @@ using System.Text;
 
 namespace DotNet_Cryptography_SymmetricEncryption.Helpers
 {
+    // Although the 'FileInfo' object has 'Encrypt' & 'Decrypt' functionality,
+    // we will not be using them for these exercises
+
+    /// <summary>
+    /// File Helper
+    /// </summary>
     public class FileIOHelper
     {
         public string SourceFileName { get; set; }
@@ -23,6 +29,7 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
                 throw new ArgumentNullException("Please provide a file name");
             }
 
+            // Create file object
             FileInfo file = new FileInfo(SourceFileName);
 
             // Check that file exists
@@ -48,6 +55,23 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
 
         public void Write(string content)
         {
+            // Check file name specified
+            if (String.IsNullOrWhiteSpace(DestinationFileName))
+            {
+                throw new ArgumentNullException("Please provide a destination file name");
+            }
+
+            // Create file object
+            FileInfo file = new FileInfo(SourceFileName);
+
+            // Ensure the file does not exist
+            file.Delete();
+
+            // Write to file
+            using (StreamWriter writer = file.CreateText())
+            {
+                writer.WriteLine(content);
+            }
 
         }
     }
