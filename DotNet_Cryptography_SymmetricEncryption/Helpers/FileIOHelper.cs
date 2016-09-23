@@ -62,7 +62,7 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             }
 
             // Create file object
-            FileInfo file = new FileInfo(SourceFileName);
+            FileInfo file = new FileInfo(DestinationFileName);
 
             // Ensure the file does not exist
             file.Delete();
