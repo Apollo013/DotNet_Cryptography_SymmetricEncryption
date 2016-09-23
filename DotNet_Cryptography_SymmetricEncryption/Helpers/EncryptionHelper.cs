@@ -27,9 +27,15 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
         private ICryptoTransform Encryptor { get { return Cipher.CreateEncryptor(); } }
         private ICryptoTransform Decryptor { get { return Cipher.CreateDecryptor(); } }
 
+        // No real need for these, just there so we can print them to console
         public string ConvertedKeyBytes { get { return BitConverter.ToString(Cipher.Key); } }
         public string ConvertedIVBytes { get { return BitConverter.ToString(Cipher.IV); } }
 
+        /// <summary>
+        /// Encrypts a message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public string Encrypt(string message)
         {
             byte[] plainBytes = Encoding.UTF8.GetBytes(message);
@@ -37,6 +43,11 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             return Convert.ToBase64String(encryptedBytes);
         }
 
+        /// <summary>
+        /// Decrypts a message
+        /// </summary>
+        /// <param name="encryptedText"></param>
+        /// <returns></returns>
         public string Decrypt(string encryptedText)
         {
             byte[] encryptedBytes = Convert.FromBase64String(encryptedText);
@@ -81,15 +92,19 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             return byteValues;
         }
 
+        /// <summary>
+        /// Creates a random encryption key
+        /// </summary>
+        /// <returns></returns>
         private string GetEncryptionKey()
         {
             byte[] key = new byte[KeySize / 8];
             GenerateRandomBytes(key);
-            return BitConverter.ToString(key).Replace("-", string.Empty);
+            return BitConverter.ToString(key).Replace("-", string.Empty); // 'BitConverter' pairs bytes with a '-' seperating them
         }
 
         /// <summary>
-        /// Generates 
+        /// Generates random bytes
         /// </summary>
         /// <param name="buffer"></param>
         private void GenerateRandomBytes(byte[] buffer)
