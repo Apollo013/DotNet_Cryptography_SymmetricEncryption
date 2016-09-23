@@ -98,19 +98,10 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
         /// <returns></returns>
         private string GetEncryptionKey()
         {
-            byte[] key = new byte[KeySize / 8];
-            GenerateRandomBytes(key);
-            return BitConverter.ToString(key).Replace("-", string.Empty); // 'BitConverter' pairs bytes with a '-' seperating them
-        }
-
-        /// <summary>
-        /// Generates random bytes
-        /// </summary>
-        /// <param name="buffer"></param>
-        private void GenerateRandomBytes(byte[] buffer)
-        {
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            rng.GetBytes(buffer);
+            byte[] key = new byte[KeySize / 8];
+            rng.GetBytes(key);
+            return BitConverter.ToString(key).Replace("-", string.Empty); // 'BitConverter' pairs bytes with a '-' seperating them
         }
     }
 
