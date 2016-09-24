@@ -22,5 +22,7 @@ Developed with Visual Studio 2015 Community
 |[SymmetricAlgorithm Class](https://msdn.microsoft.com/en-us/library/system.security.cryptography.symmetricalgorithm(v=vs.110).aspx)| | MSDN |
 |[FileInfo Class](https://msdn.microsoft.com/en-us/library/system.io.fileinfo(v=vs.110).aspx)| | MSDN |
 |[Symmetric encryption algorithms in .NET](https://dotnetcodr.com/2013/11/04/symmetric-encryption-algorithms-in-net-cryptography-part-1/)| Andras Nemes | dotnetcodr |
-
+|[System.Security.Cryptography Namespace](https://msdn.microsoft.com/en-us/library/system.security.cryptography(v=vs.110).aspx)|  | MSDN |
+|[C# AES 256 bits Encryption Library with Salt](http://www.codeproject.com/Articles/769741/Csharp-AES-bits-Encryption-Library-with-Salt)| adriancs| Code Project |
+|[Encrypt and Decrypt Data with C#](http://www.codeproject.com/Articles/14151/Encrypt-and-Decrypt-Data-with-Csharp)| Syed Moshiur Murshed | Code Project |
 
