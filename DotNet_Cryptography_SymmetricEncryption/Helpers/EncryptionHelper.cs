@@ -104,5 +104,4 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             return BitConverter.ToString(key).Replace("-", string.Empty); // 'BitConverter' pairs bytes with a '-' seperating them
         }
     }
-
 }
