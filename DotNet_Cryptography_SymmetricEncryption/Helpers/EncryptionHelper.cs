@@ -6,24 +6,33 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
 {
     public class EncryptionHelper
     {
-        private SymmetricAlgorithm _cipher;
-        protected SymmetricAlgorithm Cipher
+        #region Properties
+        private SymmetricAlgorithm Cipher { get; set; }
+        public int KeySize
         {
-            get
-            {
-                if (_cipher == null)
-                {
-                    // Create a default cipher if none specified
-                    _cipher = CreateDefaultCipher();
-                }
-                return _cipher;
-            }
-            set { _cipher = value; }
+            get { return Cipher.KeySize; }
+            set { Cipher.KeySize = value; }
         }
-        public int KeySize { get; set; } = 256;
-        public int BlockSize { get; set; } = 128;
-        public PaddingMode PaddingMode { get; set; } = PaddingMode.ISO10126;
-        public CipherMode CipherMode { get; set; } = CipherMode.CBC;
+        public int BlockSize
+        {
+            get { return Cipher.BlockSize; }
+            set { Cipher.BlockSize = value; }
+        }
+        public PaddingMode PaddingMode
+        {
+            get { return Cipher.Padding; }
+            set { Cipher.Padding = value; }
+        }
+        public CipherMode Mode
+        {
+            get { return Cipher.Mode; }
+            set { Cipher.Mode = value; }
+        }
+        public byte[] Key
+        {
+            get { return Cipher.Key; }
+            set { Cipher.Key = value; }
+        }
         private ICryptoTransform Encryptor { get { return Cipher.CreateEncryptor(); } }
         private ICryptoTransform Decryptor { get { return Cipher.CreateDecryptor(); } }
 
@@ -31,6 +40,35 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
         public string ConvertedKeyBytes { get { return BitConverter.ToString(Cipher.Key); } }
         public string ConvertedIVBytes { get { return BitConverter.ToString(Cipher.IV); } }
 
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Default constructor that will create a 'RijndaelManaged' cypher
+        /// </summary>
+        public EncryptionHelper() : this(new RijndaelManaged())
+        { }
+
+        public EncryptionHelper(SymmetricAlgorithm cypher)
+        {
+            if (cypher == null)
+            {
+                throw new ArgumentNullException("Please supply a valid Symmetric Algorithm");
+            }
+            Cipher = cypher;
+            InitializeCypher();
+        }
+
+        private void InitializeCypher()
+        {
+            // Do not set key size or block size here, as different algorithms use different legal key sizes
+            Cipher.Padding = PaddingMode.ISO10126; ;
+            Cipher.Mode = CipherMode.CBC;
+            Cipher.Key = HexToByteArray(RandomKeyToString());
+        }
+        #endregion
+
+        #region Encrypt / Decrypt Methods
         /// <summary>
         /// Encrypts a message
         /// </summary>
@@ -54,29 +92,15 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
             byte[] plainBytes = Decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
             return Encoding.UTF8.GetString(plainBytes);
         }
+        #endregion
 
-        /// <summary>
-        /// Creates a default cipher using 'RijndaelManaged'
-        /// </summary>
-        /// <returns></returns>
-        private RijndaelManaged CreateDefaultCipher()
-        {
-            RijndaelManaged cipher = new RijndaelManaged();
-            cipher.KeySize = KeySize;
-            cipher.BlockSize = BlockSize;
-            cipher.Padding = PaddingMode;
-            cipher.Mode = CipherMode;
-            byte[] key = HexToByteArray(GetEncryptionKey());
-            cipher.Key = key;
-            return cipher;
-        }
-
+        #region Private Helpers
         /// <summary>
         /// Converts a hex string to bytes
         /// </summary>
         /// <param name="hexString"></param>
         /// <returns></returns>
-        private byte[] HexToByteArray(string hexString)
+        public byte[] HexToByteArray(string hexString)
         {
             if (0 != (hexString.Length % 2))
             {
@@ -93,15 +117,28 @@ namespace DotNet_Cryptography_SymmetricEncryption.Helpers
         }
 
         /// <summary>
-        /// Creates a random encryption key
+        /// Creates a random encryption key and returns it's string representation
         /// </summary>
         /// <returns></returns>
-        private string GetEncryptionKey()
+        public string RandomKeyToString()
         {
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] key = new byte[KeySize / 8];
             rng.GetBytes(key);
             return BitConverter.ToString(key).Replace("-", string.Empty); // 'BitConverter' pairs bytes with a '-' seperating them
         }
+
+        /// <summary>
+        /// Creates a random encryption key
+        /// </summary>
+        /// <returns></returns>
+        public byte[] RandomKey()
+        {
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            byte[] key = new byte[KeySize / 8];
+            rng.GetBytes(key);
+            return key;
+        }
+        #endregion
     }
 }
