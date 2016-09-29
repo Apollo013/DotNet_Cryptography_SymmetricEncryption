@@ -14,6 +14,15 @@ Developed with Visual Studio 2015 Community
 
 ---
 
+###Algorithms demonstrated
+|Algorithm|
+|---------|
+|Rijndael|
+|TripleDES|
+|MD5|
+
+---
+
 ###Resources
 |Title|Author|Website|
 |-----|------|-------|
