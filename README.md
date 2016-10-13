@@ -1,5 +1,5 @@
 # DotNet_Cryptography_SymmetricEncryption
-Currently under development, this app will demonstrate several symmetric encryption algorithms.
+A couple of .Net console apps demonstrating several symmetric encryption algorithms.
 
 ---
 
